@@ -40,10 +40,10 @@ public class Sonda {
 
     @Override
     public String toString() {
-        return "Sonda{" +
+        return "Posição{" +
                 "X=" + eixox +
                 ", Y=" + eixoy +
-                ", D='" + direcao + '\'' +
+                ", Direção='" + direcao + '\'' +
                 '}';
     }
 }
