@@ -40,7 +40,7 @@ public class Sonda {
 
     @Override
     public String toString() {
-        return "Posição{" +
+        return "está na posição{" +
                 "X=" + eixox +
                 ", Y=" + eixoy +
                 ", Direção='" + direcao + '\'' +
