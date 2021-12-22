@@ -5,7 +5,6 @@ import java.util.*;
 public class Controle {
 
     public static ArrayList<Sonda> sondas = new ArrayList<>();
-    public static ArrayList<Sonda> listaDePosicoes = new ArrayList<>();
     public static Planalto planalto;
     public static Sonda s;
 
@@ -130,11 +129,6 @@ public class Controle {
                     }
                 } while (index >= sondas.size() || index < 0);
                 s = sondas.get(index);
-                if (!listaDePosicoes.isEmpty()) {
-                    listaDePosicoes.clear();
-                }
-                listaDePosicoes.addAll(sondas);
-                listaDePosicoes.remove(s);
                 System.out.println("Entre com os comandos para manusear a sonda exemplo (LL MMMM R M R), L para virar a esquerda a 90°, M para mover a sonda para direção apontada ou R para virar a sonda para direita a 90°");
                 manuseio = new Scanner(System.in).nextLine();
                 manuseio = manuseio.toUpperCase();
@@ -156,6 +150,9 @@ public class Controle {
 
     public static void rosaDosVentos(Character c, Sonda sonda) {
         Integer va = 0;
+        List<Sonda> listaDePosicoes = new ArrayList<>();
+        listaDePosicoes.addAll(sondas);
+        listaDePosicoes.remove(sonda);
         switch (sonda.getDirecao()) {
             case "N":
                 if (c.equals('L')) {
