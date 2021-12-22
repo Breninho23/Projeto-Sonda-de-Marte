@@ -38,6 +38,7 @@ public class Sonda {
     }
 
 
+    //Override para imprimir lista e posições
     @Override
     public String toString() {
         return "está na posição{" +
@@ -45,5 +46,11 @@ public class Sonda {
                 ", Y=" + eixoy +
                 ", Direção='" + direcao + '\'' +
                 '}';
+    }
+
+    //Override para ajustar o metodo contains e ignorar a direcao
+    @Override
+    public boolean equals(Object obj) {
+        return ((Sonda) obj).getEixox().equals(this.getEixox()) && ((Sonda) obj).getEixoy().equals(this.getEixoy());
     }
 }
