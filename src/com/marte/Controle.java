@@ -5,6 +5,7 @@ import java.util.*;
 public class Controle {
 
     public static ArrayList<Sonda> sondas = new ArrayList<>();
+    public static ArrayList<Sonda> listaDePosicoes = new ArrayList<>();
     public static Planalto planalto;
     public static Sonda s;
 
@@ -59,45 +60,49 @@ public class Controle {
     }
 
     public static void cadastrarSonda() {
-       if(planalto != null){
-           Integer sondax;
-           Integer sonday;
-           String sondaD;
-           try {
-               System.out.print("Entra com a posição da sonda no eixo X: ");
-               do {
-                   sondax = new Scanner(System.in).nextInt();
-                   if(sondax > planalto.getEixox() || sondax < 0){
-                       System.out.println("Você não pode pousar uma sonda fora da área de exploração definida, área definida foi de: 0 á " + planalto.getEixox());
-                   }
-               } while (sondax > planalto.getEixox() || sondax < 0);
-               System.out.print("Entra com a posição da Sonda no eixo Y: ");
-               do {
-                   sonday = new Scanner(System.in).nextInt();
-                   if(sonday > planalto.getEixoy() || sonday < 0){
-                       System.out.println("Você não pode pousar uma sonda fora da área de exploração definida, área definida foi de: 0 á " + planalto.getEixoy());
-                   }
-               } while (sonday > planalto.getEixoy() || sonday < 0);
-               System.out.print("Entra com a direção para a qual a sonda está apontada as opções podem ser N (Norte), S (Sul), W (Oeste), E (Leste): ");
-               do {
-                   sondaD = new Scanner(System.in).next();
-                   sondaD = sondaD.toUpperCase();
-                   if(!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E")){
-                       System.out.println("Digite apenas primeira letra de uma das direções, os valores válidos são: N, S, W ou E");
-                   }
-               } while (!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E"));
-               Sonda sonda = new Sonda(sondax, sonday, sondaD);
-               sondas.add(sonda);
-               System.out.println("Sonda cadastrada com sucesso");
-           } catch (InputMismatchException e) {
-               System.out.println("Entre com um valor correspondente");
-               cadastrarSonda();
-           }
-       }
-       else{
-           System.out.println("Caro explorador é necessário definir uma área limite para exploração antes de inserir uma sonda");
-           System.out.println("Você não vai querer que uma delas pouse em um lugar desconhecido não é mesmo ?");
-       }
+        if(planalto != null){
+            Integer sondax;
+            Integer sonday;
+            String sondaD;
+            try {
+                System.out.print("Entra com a posição da sonda no eixo X: ");
+                do {
+                    sondax = new Scanner(System.in).nextInt();
+                    if(sondax > planalto.getEixox() || sondax < 0){
+                        System.out.println("Você não pode pousar uma sonda fora da área de exploração definida, área definida foi de: 0 á " + planalto.getEixox());
+                    }
+                } while (sondax > planalto.getEixox() || sondax < 0);
+                System.out.print("Entra com a posição da Sonda no eixo Y: ");
+                do {
+                    sonday = new Scanner(System.in).nextInt();
+                    if(sonday > planalto.getEixoy() || sonday < 0){
+                        System.out.println("Você não pode pousar uma sonda fora da área de exploração definida, área definida foi de: 0 á " + planalto.getEixoy());
+                    }
+                } while (sonday > planalto.getEixoy() || sonday < 0);
+                System.out.print("Entra com a direção para a qual a sonda está apontada as opções podem ser N (Norte), S (Sul), W (Oeste), E (Leste): ");
+                do {
+                    sondaD = new Scanner(System.in).next();
+                    sondaD = sondaD.toUpperCase();
+                    if(!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E")){
+                        System.out.println("Digite apenas primeira letra de uma das direções, os valores válidos são: N, S, W ou E");
+                    }
+                } while (!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E"));
+                Sonda sonda = new Sonda(sondax, sonday, sondaD);
+                if(sondas.contains(sonda)){
+                    System.out.println("Ja existe uma sonda cadastrada nessa posição, nenhuma sonda foi cadastrada");
+                }else{
+                    sondas.add(sonda);
+                    System.out.println("Sonda cadastrada com sucesso");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entre com um valor correspondente");
+                cadastrarSonda();
+            }
+        }
+        else{
+            System.out.println("Caro explorador é necessário definir uma área limite para exploração antes de inserir uma sonda");
+            System.out.println("Você não vai querer que uma delas pouse em um lugar desconhecido não é mesmo ?");
+        }
     }
 
     public static void mostraSondasCadastradas() {
@@ -127,6 +132,8 @@ public class Controle {
                     }
                 } while (index >= sondas.size() || index < 0);
                 s = sondas.get(index);
+                listaDePosicoes.addAll(sondas);
+                listaDePosicoes.remove(s);
                 System.out.println("Entre com os comandos para manusear a sonda exemplo (LL MMMM R M R), L para virar a esquerda a 90°, M para mover a sonda para direção apontada ou R para virar a sonda para direita a 90°");
                 manuseio = new Scanner(System.in).nextLine();
                 manuseio = manuseio.toUpperCase();
@@ -161,6 +168,10 @@ public class Controle {
                         System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixoy(va);
+                    if(listaDePosicoes.contains(sonda)) {
+                        System.out.println("Sonda a frente, movendo uma casa");
+                        sonda.setEixoy(va -1);
+                    }
                 }
                 ;
                 break;
@@ -176,6 +187,10 @@ public class Controle {
                         System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixoy(va);
+                    if(listaDePosicoes.contains(sonda)) {
+                        System.out.println("Sonda a frente, movendo uma casa");
+                        sonda.setEixoy(va +1);
+                    }
                 }
                 break;
             case "W":
@@ -190,6 +205,10 @@ public class Controle {
                         System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixox(va);
+                    if(listaDePosicoes.contains(sonda)) {
+                        System.out.println("Sonda a frente, movendo uma casa");
+                        sonda.setEixoy(va +1);
+                    }
                 }
                 break;
             case "E":
@@ -204,6 +223,10 @@ public class Controle {
                         System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixox(va);
+                    if(listaDePosicoes.contains(sonda)) {
+                        System.out.println("Sonda a frente, movendo uma casa");
+                        sonda.setEixoy(va -1);
+                    }
                 }
                 break;
             default:
