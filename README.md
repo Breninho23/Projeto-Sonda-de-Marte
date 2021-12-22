@@ -1,5 +1,7 @@
-# Projeto-Sonda-de-Marte
+# Projeto-Sonda-de-Marte :rocket:
 O projeto foi feito ultilizando os mesmo princípios propostos, entre tanto foi inserido um menu além de modificações nas entradas para a Área do Planalto, e para o Cadastro das Sondas, a entrada de comandos para mover e roteacionar a sonda continua igual (LLMMRR RR M).
+
+## Funcionamento e Entradas:
 
 Vista do Menu Principal
 <div align="center">
