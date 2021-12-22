@@ -16,12 +16,12 @@ public class Controle {
     public static void cadastraPlanalto() {
         Integer opcao;
         try {
-            if(sondas.size() == 0){
+            if (sondas.size() == 0) {
                 System.out.print("Insira a largura do planalto (eixo X): ");
                 Integer eixox;
                 do {
                     eixox = new Scanner(System.in).nextInt();
-                    if(eixox <= 0){
+                    if (eixox <= 0) {
                         System.out.println("Área a ser explorada precisa ser maior do que 0");
                     }
                 } while (eixox <= 0);
@@ -29,14 +29,13 @@ public class Controle {
                 Integer eixoy;
                 do {
                     eixoy = new Scanner(System.in).nextInt();
-                    if(eixoy <= 0){
+                    if (eixoy <= 0) {
                         System.out.println("Área a ser explorada precisa ser maior do que 0");
                     }
                 } while (eixoy <= 0);
                 planalto = new Planalto(eixox, eixoy);
                 System.out.println("Área de exploração para as sondas foi definida");
-            }
-            else{
+            } else {
                 System.out.println("Já existe uma área com sondas, se você for alterar a área todas as sondas serão recolhidas e você terá de pousar todas novamente, tem certeza que deseja fazer isso ?");
                 System.out.println("|-----------------------------------------------------|");
                 System.out.println("| 1 - Para Resetar todo o progresso e começar do zero |");
@@ -44,11 +43,11 @@ public class Controle {
                 System.out.println("|-----------------------------------------------------|");
                 do {
                     opcao = new Scanner(System.in).nextInt();
-                    if(opcao == 1){
+                    if (opcao == 1) {
                         sondas.clear();
                         planalto = null;
                         System.out.println("A exploração ira recomeçar");
-                    }else if (opcao == 2){
+                    } else if (opcao == 2) {
                         menu();
                     }
                 } while (opcao != 1 && opcao != 2);
@@ -60,7 +59,7 @@ public class Controle {
     }
 
     public static void cadastrarSonda() {
-        if(planalto != null){
+        if (planalto != null) {
             Integer sondax;
             Integer sonday;
             String sondaD;
@@ -68,14 +67,14 @@ public class Controle {
                 System.out.print("Entra com a posição da sonda no eixo X: ");
                 do {
                     sondax = new Scanner(System.in).nextInt();
-                    if(sondax > planalto.getEixox() || sondax < 0){
+                    if (sondax > planalto.getEixox() || sondax < 0) {
                         System.out.println("Você não pode pousar uma sonda fora da área de exploração definida, área definida foi de: 0 á " + planalto.getEixox());
                     }
                 } while (sondax > planalto.getEixox() || sondax < 0);
                 System.out.print("Entra com a posição da Sonda no eixo Y: ");
                 do {
                     sonday = new Scanner(System.in).nextInt();
-                    if(sonday > planalto.getEixoy() || sonday < 0){
+                    if (sonday > planalto.getEixoy() || sonday < 0) {
                         System.out.println("Você não pode pousar uma sonda fora da área de exploração definida, área definida foi de: 0 á " + planalto.getEixoy());
                     }
                 } while (sonday > planalto.getEixoy() || sonday < 0);
@@ -83,14 +82,14 @@ public class Controle {
                 do {
                     sondaD = new Scanner(System.in).next();
                     sondaD = sondaD.toUpperCase();
-                    if(!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E")){
+                    if (!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E")) {
                         System.out.println("Digite apenas primeira letra de uma das direções, os valores válidos são: N, S, W ou E");
                     }
                 } while (!sondaD.equals("N") && !sondaD.equals("S") && !sondaD.equals("W") && !sondaD.equals("E"));
                 Sonda sonda = new Sonda(sondax, sonday, sondaD);
-                if(sondas.contains(sonda)){
+                if (sondas.contains(sonda)) {
                     System.out.println("Ja existe uma sonda cadastrada nessa posição, nenhuma sonda foi cadastrada");
-                }else{
+                } else {
                     sondas.add(sonda);
                     System.out.println("Sonda cadastrada com sucesso");
                 }
@@ -98,25 +97,24 @@ public class Controle {
                 System.out.println("Entre com um valor correspondente");
                 cadastrarSonda();
             }
-        }
-        else{
+        } else {
             System.out.println("Caro explorador é necessário definir uma área limite para exploração antes de inserir uma sonda");
             System.out.println("Você não vai querer que uma delas pouse em um lugar desconhecido não é mesmo ?");
         }
     }
 
     public static void mostraSondasCadastradas() {
-        if(sondas.isEmpty()){
+        if (sondas.isEmpty()) {
             System.out.println("Caro explorador não existe nenhuma sonda registrada");
-        }else{
+        } else {
             for (Sonda sonda : sondas) {
-                System.out.println("Sonda número |-- " + sondas.indexOf(sonda) +" --| " + sonda.toString());
+                System.out.println("Sonda número |-- " + sondas.indexOf(sonda) + " --| " + sonda.toString());
             }
         }
     }
 
     public static void manusearSonda() {
-        try{
+        try {
             if (!sondas.isEmpty() && planalto != null) {
                 String manuseio;
                 Integer index;
@@ -127,11 +125,14 @@ public class Controle {
                 //Aqui eu pego uma sonda Cadastrada
                 do {
                     index = new Scanner(System.in).nextInt();
-                    if(index >= sondas.size() || index < 0){
+                    if (index >= sondas.size() || index < 0) {
                         System.out.println("Sonda de número " + index + " inexistente, digite o número de uma sonda cadastrada");
                     }
                 } while (index >= sondas.size() || index < 0);
                 s = sondas.get(index);
+                if (!listaDePosicoes.isEmpty()) {
+                    listaDePosicoes.clear();
+                }
                 listaDePosicoes.addAll(sondas);
                 listaDePosicoes.remove(s);
                 System.out.println("Entre com os comandos para manusear a sonda exemplo (LL MMMM R M R), L para virar a esquerda a 90°, M para mover a sonda para direção apontada ou R para virar a sonda para direita a 90°");
@@ -142,13 +143,13 @@ public class Controle {
                     if (c.equals('L') || c.equals('M') || c.equals('R')) {
                         rosaDosVentos(c, s);
                     } else {
-                        System.out.println("|"+ c +"|"+ " Não é um caractére válido");
+                        System.out.println("|" + c + "|" + " Não é um caractére válido");
                     }
                 }
-            }else{
+            } else {
                 System.out.println("Caro explorador para poder utilizar está opção é necessário antes ter as medidas do planato definidas e ao menos uma sonda cadastrada");
             }
-        }catch (InputMismatchException e) {
+        } catch (InputMismatchException e) {
             System.out.println("Erro, você digitou um valor incompatível, por isso será levado ao menu principal");
         }
     }
@@ -165,12 +166,12 @@ public class Controle {
                     va = (sonda.getEixoy() + 1);
                     if (va > planalto.getEixoy()) {
                         va = planalto.getEixoy();
-                        System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
+                        System.out.println("A sonda atingiu o limite " + va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixoy(va);
-                    if(listaDePosicoes.contains(sonda)) {
+                    if (listaDePosicoes.contains(sonda)) {
                         System.out.println("Sonda a frente, movendo uma casa");
-                        sonda.setEixoy(va -1);
+                        sonda.setEixoy(va - 1);
                     }
                 }
                 ;
@@ -184,12 +185,12 @@ public class Controle {
                     va = (sonda.getEixoy() - 1);
                     if (va < 0) {
                         va = 0;
-                        System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
+                        System.out.println("A sonda atingiu o limite " + va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixoy(va);
-                    if(listaDePosicoes.contains(sonda)) {
+                    if (listaDePosicoes.contains(sonda)) {
                         System.out.println("Sonda a frente, movendo uma casa");
-                        sonda.setEixoy(va +1);
+                        sonda.setEixoy(va + 1);
                     }
                 }
                 break;
@@ -202,12 +203,12 @@ public class Controle {
                     va = (sonda.getEixox() - 1);
                     if (va < 0) {
                         va = 0;
-                        System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
+                        System.out.println("A sonda atingiu o limite " + va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixox(va);
-                    if(listaDePosicoes.contains(sonda)) {
+                    if (listaDePosicoes.contains(sonda)) {
                         System.out.println("Sonda a frente, movendo uma casa");
-                        sonda.setEixoy(va +1);
+                        sonda.setEixoy(va + 1);
                     }
                 }
                 break;
@@ -220,12 +221,12 @@ public class Controle {
                     va = (sonda.getEixox() + 1);
                     if (va > planalto.getEixox()) {
                         va = planalto.getEixox();
-                        System.out.println("A sonda atingiu o limite "+ va + " e não pode mais prosseguir nessa direção");
+                        System.out.println("A sonda atingiu o limite " + va + " e não pode mais prosseguir nessa direção");
                     }
                     sonda.setEixox(va);
-                    if(listaDePosicoes.contains(sonda)) {
+                    if (listaDePosicoes.contains(sonda)) {
                         System.out.println("Sonda a frente, movendo uma casa");
-                        sonda.setEixoy(va -1);
+                        sonda.setEixoy(va - 1);
                     }
                 }
                 break;
